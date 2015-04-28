@@ -17,9 +17,8 @@ add_theme_support('bootstrap-gallery');     // Enable Bootstrap's thumbnails com
  * Remove theme features
  */
 
-/*
- * Remove admin menus
- */
+// Remove admin menus
+
 add_action( 'admin_menu', 'remove_admin_menus' );
 function remove_admin_menus() {
 	remove_menu_page('edit.php');
@@ -36,7 +35,7 @@ add_filter('comments_array','df_disable_comments_hide_existing_comments',10,2);f
 add_action('admin_menu','df_disable_comments_admin_menu');function df_disable_comments_admin_menu_redirect(){global $pagenow;if($pagenow==='edit-comments.php'){wp_redirect(admin_url());exit;}}
 add_action('admin_init','df_disable_comments_admin_menu_redirect');function df_disable_comments_dashboard(){remove_meta_box('dashboard_recent_comments','dashboard','normal');}
 add_action('admin_init','df_disable_comments_dashboard');function df_disable_comments_admin_bar(){if(is_admin_bar_showing()){remove_action('admin_bar_menu','wp_admin_bar_comments_menu',60);}}
-add_action('init','df_disable_comments_admin_bar');
+//add_action('init','df_disable_comments_admin_bar');
 
 // Remove junk from head
 remove_action('wp_head', 'rsd_link');

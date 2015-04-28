@@ -19,7 +19,9 @@ $sage_includes = [
   'lib/titles.php',                // Page titles
   'lib/nav.php',                   // Custom nav modifications
   'lib/gallery.php',               // Custom [gallery] modifications
-  'lib/extras.php',                // Custom functions
+  'lib/cpt.php',				   // Custom post types logic
+  'lib/extras.php',                // Custom functions and declaration of custom post types
+  'lib/templating.php' 			   // Templating functions. Uses global namespace
 ];
 
 foreach ($sage_includes as $file) {

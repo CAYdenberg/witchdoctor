@@ -3,6 +3,8 @@
 namespace Roots\Sage\Extras;
 
 use Roots\Sage\Config;
+use Roots\Sage\cpt;
+
 
 /**
  * Add <body> classes
