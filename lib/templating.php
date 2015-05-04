@@ -112,6 +112,15 @@ function the_image($image_arr, $default_size = 'full', $classes = '', $size_attr
 	);
 }
 
+function get_post_thumbnail_url {
+	if ( has_post_thumbnail() ) {
+	    $thumb = wp_get_attachment_image_src(get_post_thumbnail_id(), 'thumbnail_name');
+	    return $thumb[0]; // thumbnail url
+	} else {
+		return false;
+	}
+}
+
 function get_post_data( $post_objects, $key ) {
 	$data = array();
 	if ( !is_array($post_objects) ) {
