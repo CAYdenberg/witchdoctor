@@ -82,7 +82,7 @@ if (WP_ENV == 'development' || WP_ENV == 'test') {
 	show_admin_bar( FALSE );		
 }
 if (WP_ENV == 'test') {
-	add_action('template_redirect', 'protect_whole_site');
+	add_action('template_redirect', 'Roots\Sage\Config\protect_whole_site');
 }
 function protect_whole_site() {
 	if ( !is_user_logged_in() ) {
