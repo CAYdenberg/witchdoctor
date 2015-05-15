@@ -72,7 +72,7 @@ function is_subpage($parentID = FALSE) {
 		if (!$parentID) {
 			//not looking for a certain subpage.
 			return TRUE;
-		} else if ($post->post_parent === $parentID) { 
+		} else if ($post->post_parent === $parentID) {
 			//looking for a certain subpage and this is it
 			return TRUE;
 		} else {
@@ -92,16 +92,16 @@ function if_first($input_if_first, $counter, $input_if_not_first = '') {
 
 function the_image($image_arr, $default_size = 'full', $classes = '', $size_attr = FALSE) {
 
-	$srcset = function_exists('tevkori_get_srcset_string') ? tevkori_get_srcset_string($image_arr['ID'], $default_size) : ''; 
+	$srcset = function_exists('tevkori_get_srcset_string') ? tevkori_get_srcset_string($image_arr['ID'], $default_size) : '';
 
 	if ( $size_attr ) $sizes = 'sizes="'.$size_attr.'"';
 	else if ( function_exists('tevkori_get_sizes') ) $sizes = 'sizes="'.tevkori_get_sizes($image_arr['ID'], $default_size).'"';
-	else $sizes = '';	
+	else $sizes = '';
 
 	if (!$default_size || $default_size == 'full') $url = $image_arr['url'];
 	else $url = $image_arr['sizes'][$default_size];
 
-	$alt = $image_arr['alt']; 	
+	$alt = $image_arr['alt'];
 
 	return sprintf('<img src="%s" alt="%s" class="%s" %s %s />',
 		$url,
@@ -112,7 +112,7 @@ function the_image($image_arr, $default_size = 'full', $classes = '', $size_attr
 	);
 }
 
-function get_post_thumbnail_url {
+function get_post_thumbnail_url() {
 	if ( has_post_thumbnail() ) {
 	    $thumb = wp_get_attachment_image_src(get_post_thumbnail_id(), 'thumbnail_name');
 	    return $thumb[0]; // thumbnail url
@@ -160,7 +160,7 @@ class Ems {
 		$this->template = isset($atts['template']) ? $atts['template'] : 'carsouel';
 		$this->field = isset($atts['field']) ? $atts['field'] : 'carsouel';
 	}
-	public function render() {		
+	public function render() {
 		ob_start();
 		get_template_part('widgets/'.$this->template);
 		return ob_get_clean();
