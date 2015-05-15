@@ -1,59 +1,80 @@
-<?php 
+<?php
 
-namespace Roots\Sage\cpt;
+namespace Roots\Sage\Cpt;
 
 /* ~~~~~~~~~~~~~~~~~~~~~~
  * MENU ORDER AND CUSTOM POST TYPES
  * ~~~~~~~~~~~~~~~~~~~~*/
- 
+
 class MenuOrder {
-	private $extra_items = array();
-	function __construct() {
-		add_filter( 'custom_menu_order', array($this, 'make_menu') );
-		add_filter( 'menu_order', array($this, 'make_menu') ); 
+	//use only as Singleton
+	private static $extra_items = array();
+
+	public static function add_item($custom_post_type) {
+		self::$extra_items[] = $custom_post_type;
 	}
-	public function add_item($custom_post_type) {
-		array_push($this->extra_items, $custom_post_type);
-	}
-	public function make_menu() {
+
+	public static function make_menu() {
 		$menu_order = array(
 			'index.php', //Dashboard
 			'edit.php?post_type=page' //Pages
 		);
-		foreach ($this->extra_items as $item) {
+		foreach (self::$extra_items as $item) {
 			array_push($menu_order, 'edit.php?post_type='.$item);
 		}
 		return array_merge($menu_order, array(
 			'separator1', // First separator
-	        'upload.php', // Media
-	        'users.php', // Users
-	        'separator2', // Second separator 
-	        'themes.php', // Appearance   
-	        'plugins.php', // Plugins  
-	        'options-general.php', // Settings  
-	        'separator-last', // Last separator
+      'upload.php', // Media
+      'users.php', // Users
+      'separator2', // Second separator
+      'themes.php', // Appearance
+      'plugins.php', // Plugins
+      'options-general.php', // Settings
+      'separator-last', // Last separator
 		));
 	}
-}
 
-global $graphos_menu;
-$graphos_menu = new MenuOrder();
+}
+add_filter( 'custom_menu_order',  __NAMESPACE__ . '\\MenuOrder::make_menu' );
+add_filter( 'menu_order', __NAMESPACE__ . '\\MenuOrder::make_menu');
+
+
 
 /*
  * CREATE CUSTOM POST TYPE
 */
 class CustomPostType {
 	private $name, $singular, $plural, $capability, $supports = array(), $taxonomies = array();
-	function __construct($name, $singular, $plural, $supports = array(), $capability = FALSE) {
-		global $graphos_menu;
+
+  function __construct( $name, $args = array() ) {
+
+		//assign name
 		$this->name = $name;
-		$this->singular = $singular;
-		$this->plural = $plural;
-		$this->capability = ( $capability ? $capability : 'post');
-		$this->supports = ( count($supports) ? $supports : array('title', 'editor', 'thumbnail', 'attributes', 'revisions'));
-		$graphos_menu->add_item($this->name);
-		add_action( 'init', array($this, 'create_cpt') );
+
+    //establish defaults
+    $defaults = array(
+      'singular' => ucfirst( $name ),
+      'plural' => ucfirst( $name ) . 's',
+      'capability' => 'post',
+      'supports' => array('title', 'editor', 'thumbnail', 'attributes', 'revisions'),
+			'dashicon' => null
+    );
+    $args = wp_parse_args( $args, $defaults );
+
+    //assign settings to the object
+    $this->singular = $args['singular'];
+    $this->plural = $args['plural'];
+    $this->capability = $args['capability'];
+    $this->supports = $args['supports'];
+		$this->dashicon = $args['dashicon'];
+
+    //alert the admin menu that a new CPT has been created
+		MenuOrder::add_item($this->name);
+
+    //hook to create this CPT
+    add_action( 'init', array($this, 'create_cpt') );
 	}
+
 	public function attach_taxonomy($taxonomy) {
 		if ( $this->taxonomies[] = $taxonomy ) {
 			return TRUE;
@@ -82,7 +103,8 @@ class CustomPostType {
 			'supports'            => $this->supports,
 			'hierarchical'        => false,
 			'public'              => true,
-			'taxonomies'		  => $this->taxonomies,
+			'taxonomies'		  		=> $this->taxonomies,
+			'menu_icon'						=> $this->dashicon,
 			'show_ui'             => true,
 			'show_in_admin_bar'   => true,
 			'has_archive'         => true,
@@ -91,7 +113,7 @@ class CustomPostType {
 			'capability_type'     => $this->capability,
 		);
 		register_post_type($this->name, $args);
-	}	
+	}
 }
 
 /*
@@ -100,16 +122,33 @@ class CustomPostType {
 class CustomTaxonomy {
 	private $post_type, $tax_key, $tax_singular, $tax_plural, $terms = array(), $style, $default_value;
 
-	function __construct($post_type, $tax_key, $tax_singular, $tax_plural, $hierarchical = FALSE, $style = FALSE, $default_value = FALSE) {
-		$this->post_type = $post_type;
+	function __construct($tax_key, $post_type, $args) {
 		$this->tax_key = $tax_key;
-		$this->tax_singular = $tax_singular;
-		$this->tax_plural = $tax_plural;
-		$this->hierarchical = $hierarchical;
-		$this->style = $style;
-		$this->default_term = $default_value;
+		$this->post_type = $post_type;
+
+		$defaults = array(
+			'tax_singular' => ucfirst( $tax_key ),
+			'tax_plural' => ucfirst( $tax_key ) . 's',
+			'hierarchical' => FALSE,
+			'style' => FALSE,
+			'terms' => [],
+			'default_value' => FALSE
+		);
+		$args = wp_parse_args( $args, $defaults );
+
+		//set defaults as object properties
+		$this->tax_singular = $args['tax_singular'];
+		$this->tax_plural = $args['tax_plural'];
+		$this->hierarchical = $args['hierarchical'];
+		$this->style = $args['style'];
+		$this->terms = $args['terms'];
+		$this->default_term = $args['default_value'];
+
+		//add actions
 		add_action( 'init', array($this, 'add_meta') );
-		if ($this->style) {
+
+		//if style is set, get rid of the default meta boxes and add a new one
+		if ( $this->style ) {
 			add_action( 'admin_menu', array($this, 'remove_meta_boxes') );
 			add_action( 'add_meta_boxes', array($this, 'add_meta_boxes') );
 			add_action( 'save_post', array($this, 'save_post') );
@@ -118,20 +157,22 @@ class CustomTaxonomy {
 
 	public function add_meta() {
 		register_taxonomy($this->tax_key, $this->post_type,
-			array('labels' => array(
-	            	'name' => $this->tax_plural,
-	            	'singular_name' => $this->tax_singular
-	        	),
+			array(
+				'labels' => array(
+        	'name' => $this->tax_plural,
+        	'singular_name' => $this->tax_singular
+        ),
 				'public' => true,
-	        	'hierarchical' => $this->hierarchical,
-	        	'show_ui' => true,
-	        	'show_admin_column' => true,
-	        	'show_tagcloud' => false,
-	        	'rewrite' => array(
+      	'hierarchical' => $this->hierarchical,
+      	'show_ui' => true,
+      	'show_admin_column' => true,
+      	'show_tagcloud' => false,
+      	'rewrite' => array(
 					'slug' => 'products',
 					'hierarchical' => true
-				),	    
-	    ));
+				),
+	    )
+		);
 		$terms_arr = get_terms( $this->tax_key, array('hide_empty' => false) );
 		foreach ($terms_arr as $term_obj) {
 			array_push($this->terms, $term_obj->name);
