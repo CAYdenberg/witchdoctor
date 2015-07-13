@@ -38,3 +38,12 @@ function url_compare($url, $rel) {
     return false;
   }
 }
+
+
+/**
+ * Check if element is empty
+ */
+function is_element_empty($element) {
+  $element = trim($element);
+  return !empty($element);
+}
