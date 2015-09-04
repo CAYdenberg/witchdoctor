@@ -1,12 +1,27 @@
-<header class="banner" role="banner">
+<?php
+    use Roots\Sage\Nav as Nav;
+?>
+
+<nav class="navbar navbar-dark bg-inverse" role="naviagtion" id="primary-navbar">
   <div class="container">
-    <a class="brand" href="<?= esc_url(home_url('/')); ?>"><?php bloginfo('name'); ?></a>
-    <nav role="navigation">
-      <?php
-      if (has_nav_menu('primary_navigation')) :
-        wp_nav_menu(['theme_location' => 'primary_navigation', 'menu_class' => 'nav']);
-      endif;
-      ?>
-    </nav>
-  </div>
-</header>
+
+    <a class="navbar-brand" href="index.php">LOGO</a>
+
+    <button class="navbar-toggler hidden-sm-up pull-right" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar2">
+      &#9776;
+    </button>
+
+    <div class="clearfix hidden-sm-up"></div>
+
+    <div class="collapse navbar-toggleable-xs" id="exCollapsingNavbar2">
+      <?php if (has_nav_menu('primary_navigation')) :
+        wp_nav_menu([
+          'theme_location' => 'primary_navigation',
+          'menu_class' => 'nav navbar-nav pull-right',
+          'walker' => new Nav\NavWalker()
+        ]);
+      endif; ?>
+    </div>
+
+  </div><!-- /.container-fluid -->
+</nav>

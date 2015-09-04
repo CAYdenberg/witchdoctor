@@ -21,9 +21,8 @@ add_theme_support('soil-jquery-cdn');       // Enable to load jQuery from the Go
 
 add_action( 'admin_menu', __NAMESPACE__.'\remove_admin_menus' );
 function remove_admin_menus() {
-	remove_menu_page('edit.php');
-    remove_menu_page('edit-comments.php');
-    remove_menu_page('link-manager.php');
+  remove_menu_page('edit-comments.php');
+  remove_menu_page('link-manager.php');
 	remove_menu_page('tools.php');
 }
 
@@ -79,7 +78,7 @@ if (!defined('DIST_DIR')) {
  * Configure Development and testing environment
  */
 if (WP_ENV == 'development' || WP_ENV == 'test') {
-	show_admin_bar( FALSE );		
+	show_admin_bar( FALSE );
 }
 if (WP_ENV == 'test') {
 	add_action('template_redirect', 'Roots\Sage\Config\protect_whole_site');

@@ -17,7 +17,8 @@ class MenuOrder {
 	public static function make_menu() {
 		$menu_order = array(
 			'index.php', //Dashboard
-			'edit.php?post_type=page' //Pages
+			'edit.php?post_type=page', //Pages
+			'edit.php' //Posts
 		);
 		foreach (self::$extra_items as $item) {
 			array_push($menu_order, 'edit.php?post_type='.$item);

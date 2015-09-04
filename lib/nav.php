@@ -33,23 +33,40 @@ class NavWalker extends \Walker_Nav_Menu {
 
   // @codingStandardsIgnoreStart
   function start_lvl(&$output, $depth = 0, $args = []) {
-    $output .= "\n<ul class=\"dropdown-menu\">\n";
+    $output .= "\n<div class=\"dropdown-menu\">\n";
+  }
+  function end_lvl(&$output, $depth = 0, $args = []) {
+    $output .= '</div>';
   }
 
   function start_el(&$output, $item, $depth = 0, $args = [], $id = 0) {
     $item_html = '';
-    parent::start_el($item_html, $item, $depth, $args);
 
-    if ($item->is_dropdown && ($depth === 0)) {
-      $item_html = str_replace('<a', '<a class="dropdown-toggle" data-toggle="dropdown" data-target="#"', $item_html);
-      $item_html = str_replace('</a>', ' <b class="caret"></b></a>', $item_html);
-    } elseif (stristr($item_html, 'li class="divider')) {
-      $item_html = preg_replace('/<a[^>]*>.*?<\/a>/iU', '', $item_html);
-    } elseif (stristr($item_html, 'li class="dropdown-header')) {
-      $item_html = preg_replace('/<a[^>]*>(.*)<\/a>/iU', '$1', $item_html);
+    if ($depth === 0) {
+      parent::start_el($item_html, $item, $depth, $args);
+
+      if ($item->is_dropdown) {
+        $item_html = str_replace('<a', '<a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="#"', $item_html);
+      } else if (!$item->is_dropdown) {
+        $item_html = str_replace('<a', '<a class="nav-link"', $item_html);
+      }
+    } else {
+      $item_html .= '<a class="dropdown-item">'.$item->title;
     }
 
-    $item_html = apply_filters('sage/wp_nav_menu_item', $item_html);
+    //$item_html = apply_filters('sage/wp_nav_menu_item', $item_html);
+    $output .= $item_html;
+  }
+
+  function end_el(&$output, $object, $depth = 0, $args = array()) {
+    $item_html = '';
+
+    if ($depth === 0) {
+      parent::end_el($item_html, $object, $depth, $args);
+    } else {
+      $item_html = '</a>';
+    }
+
     $output .= $item_html;
   }
 
@@ -78,6 +95,8 @@ class NavWalker extends \Walker_Nav_Menu {
 
   public function cssClasses($classes, $item) {
     $slug = sanitize_title($item->title);
+
+    $classes[] = 'nav-item';
 
     if ($this->cpt) {
       $classes = str_replace('current_page_parent', '', $classes);
