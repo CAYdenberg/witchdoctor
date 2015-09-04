@@ -1,12 +1,29 @@
-<header class="banner" role="banner">
+<?php use Roots\Sage\Nav as Nav; ?>
+
+<nav class="navbar navbar-default">
   <div class="container">
-    <a class="brand" href="<?= esc_url(home_url('/')); ?>"><?php bloginfo('name'); ?></a>
-    <nav role="navigation">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#nav-menu-wrapper" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="<?php bloginfo('url'); ?>">
+        LOGO
+      </a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="nav-menu-wrapper">
       <?php
-      if (has_nav_menu('primary_navigation')) :
-        wp_nav_menu(['theme_location' => 'primary_navigation', 'menu_class' => 'nav']);
-      endif;
+        wp_nav_menu([
+          'theme_location' => 'primary_navigation',
+          'walker' => new Nav\NavWalker(),
+          'menu_class' => 'nav navbar-nav navbar-right primary-navigation',
+        ]);
       ?>
-    </nav>
+    </div><!-- /.navbar-collapse -->
   </div>
-</header>
+</nav>
