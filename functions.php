@@ -11,16 +11,17 @@
  */
 $sage_includes = [
   'lib/utils.php',                 // Utility functions
-  'lib/init.php',                  // Initial theme setup and constants
   'lib/wrapper.php',               // Theme wrapper class
-  'lib/conditional-tag-check.php', // ConditionalTagCheck class
   'lib/config.php',                // Configuration
   'lib/assets.php',                // Scripts and stylesheets
   'lib/titles.php',                // Page titles
   'lib/cpt.php',				           // Custom post types logic
-  'lib/extras.php',                // Custom functions and declaration of custom post types
   'lib/nav.php',
   'lib/templating.php' 			       // Templating functions. Uses global namespace
+  'lib/extras.php',    // Custom functions
+  'lib/titles.php',    // Page titles
+  'lib/wrapper.php',   // Theme wrapper class
+  'lib/customizer.php' // Theme customizer
 ];
 
 foreach ($sage_includes as $file) {

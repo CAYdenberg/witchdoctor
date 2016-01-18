@@ -5,7 +5,6 @@ namespace Roots\Sage\Extras;
 use Roots\Sage\Config;
 use Roots\Sage\cpt;
 
-
 /**
  * Add <body> classes
  */
@@ -18,7 +17,7 @@ function body_class($classes) {
   }
 
   // Add class if sidebar is active
-  if (Config\display_sidebar()) {
+  if (Setup\display_sidebar()) {
     $classes[] = 'sidebar-primary';
   }
 
