@@ -12,6 +12,7 @@ add_theme_support('soil-nav-walker');       // Enable cleaner nav walker from So
 add_theme_support('soil-relative-urls');    // Enable relative URLs from Soil
 add_theme_support('soil-nice-search');      // Enable nice search from Soil
 add_theme_support('soil-jquery-cdn');       // Enable to load jQuery from the Google CDN
+add_theme_support( 'automatic-feed-links' );
 
 /*
  * Remove theme features
@@ -27,29 +28,58 @@ function remove_admin_menus() {
 }
 
 // Remove Comments
-function df_disable_comments_post_types_support(){$post_types=get_post_types();foreach($post_types as $post_type){if(post_type_supports($post_type,'comments')){remove_post_type_support($post_type,'comments');remove_post_type_support($post_type,'trackbacks');}}}
+function df_disable_comments_post_types_support() {
+  $post_types=get_post_types();
+  foreach($post_types as $post_type) {
+    if(post_type_supports($post_type,'comments')) {
+      remove_post_type_support($post_type,'comments');
+      remove_post_type_support($post_type,'trackbacks');
+    }
+  }
+}
 add_action('admin_init', __NAMESPACE__.'\df_disable_comments_post_types_support');
 
-function df_disable_comments_status(){return false;}
-add_filter('comments_open',__NAMESPACE__.'\df_disable_comments_status',20,2);add_filter('pings_open','df_disable_comments_status',20,2);function df_disable_comments_hide_existing_comments($comments){$comments=array();return $comments;}
-add_filter('comments_array','df_disable_comments_hide_existing_comments',10,2);
+function df_disable_comments_status(){
+  return false;
+}
+add_filter('comments_open', __NAMESPACE__.'\df_disable_comments_status',20,2);
+add_filter('pings_open', __NAMESPACE__.'\df_disable_comments_status',20,2);
 
-function df_disable_comments_admin_menu(){remove_menu_page('edit-comments.php');}
+function df_disable_comments_hide_existing_comments($comments) {
+  $comments=array();
+  return $comments;
+}
+add_filter('comments_array', __NAMESPACE__.'\df_disable_comments_hide_existing_comments',10,2);
+
+function df_disable_comments_admin_menu() {
+  remove_menu_page('edit-comments.php');
+}
 add_action('admin_menu',__NAMESPACE__.'\df_disable_comments_admin_menu');
 
-function df_disable_comments_admin_menu_redirect(){global $pagenow;if($pagenow==='edit-comments.php'){wp_redirect(admin_url());exit;}}
+function df_disable_comments_admin_menu_redirect(){
+  global $pagenow;
+  if($pagenow==='edit-comments.php') {
+    wp_redirect(admin_url());
+    exit;
+  }
+}
 add_action('admin_init',__NAMESPACE__.'\df_disable_comments_admin_menu_redirect');
 
-function df_disable_comments_dashboard(){remove_meta_box('dashboard_recent_comments','dashboard','normal');}
+function df_disable_comments_dashboard() {
+  remove_meta_box('dashboard_recent_comments','dashboard','normal');
+}
 add_action('admin_init',__NAMESPACE__.'\df_disable_comments_dashboard');
 
-function df_disable_comments_admin_bar(){if(is_admin_bar_showing()){remove_action('admin_bar_menu','wp_admin_bar_comments_menu',60);}}
-add_action('init',__NAMESPACE__.'\df_disable_comments_admin_bar');
+function df_disable_comments_admin_bar() {
+  if (is_admin_bar_showing() ) {
+    remove_action('admin_bar_menu','wp_admin_bar_comments_menu',60);
+  }
+}
+add_action('init', __NAMESPACE__.'\df_disable_comments_admin_bar');
 
 // Remove junk from head
 remove_action('wp_head', 'rsd_link');
 remove_action('wp_head', 'wp_generator');
-remove_action('wp_head', 'feed_links', 2);
 remove_action('wp_head', 'index_rel_link');
 remove_action('wp_head', 'wlwmanifest_link');
 remove_action('wp_head', 'feed_links_extra', 3);
@@ -77,9 +107,9 @@ if (!defined('DIST_DIR')) {
 /*
  * Configure Development and testing environment
  */
-if (WP_ENV == 'development' || WP_ENV == 'test') {
-	show_admin_bar( FALSE );
-}
+
+show_admin_bar( FALSE );
+
 if (WP_ENV == 'test') {
 	add_action('template_redirect', 'Roots\Sage\Config\protect_whole_site');
 }
@@ -87,44 +117,4 @@ function protect_whole_site() {
 	if ( !is_user_logged_in() ) {
 		auth_redirect();
 	}
-}
-
-
-/**
- * Define which pages shouldn't have the sidebar
- * COMPLETELY REMOVE THE SIDEBAR
- */
-function display_sidebar() {
-  static $display;
-
-  if (!isset($display)) {
-    $conditionalCheck = new ConditionalTagCheck(
-      /**
-       * Any of these conditional tags that return true won't show the sidebar.
-       * You can also specify your own custom function as long as it returns a boolean.
-       *
-       * To use a function that accepts arguments, use an array instead of just the function name as a string.
-       *
-       * Examples:
-       *
-       * 'is_single'
-       * 'is_archive'
-       * ['is_page', 'about-me']
-       * ['is_tax', ['flavor', 'mild']]
-       * ['is_page_template', 'about.php']
-       * ['is_post_type_archive', ['foo', 'bar', 'baz']]
-       *
-       */
-      [
-        'is_404',
-        'is_front_page',
-        ['is_page_template', 'template-custom.php']
-      ]
-    );
-
-    $display = apply_filters('sage/display_sidebar', $conditionalCheck->result);
-  }
-
-  //never show the sidebar
-  return FALSE;
 }

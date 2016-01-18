@@ -17,7 +17,7 @@ $sage_includes = [
   'lib/titles.php',                // Page titles
   'lib/cpt.php',				           // Custom post types logic
   'lib/nav.php',
-  'lib/templating.php' 			       // Templating functions. Uses global namespace
+  'lib/templating.php',			       // Templating functions. Uses global namespace
   'lib/extras.php',    // Custom functions
   'lib/titles.php',    // Page titles
   'lib/wrapper.php',   // Theme wrapper class
