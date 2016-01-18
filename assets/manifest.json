@@ -22,6 +22,6 @@
     }
   },
   "config": {
-    "devUrl": "http://localhost/metcredit"
+    "devUrl": "http://localhost:8080"
   }
 }
