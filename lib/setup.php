@@ -95,6 +95,8 @@ function display_sidebar() {
  * Theme assets
  */
 function assets() {
+  wp_deregister_script('wp-embed');
+
   wp_enqueue_style('sage/css', Assets\asset_path('styles/main.css'), false, null);
 
   if (is_single() && comments_open() && get_option('thread_comments')) {
