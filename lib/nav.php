@@ -1,8 +1,8 @@
 <?php
 
-namespace Roots\Sage\Nav;
+namespace WD\Lib\Nav;
 
-use Roots\Sage\Utils;
+use WD\Lib\Utils;
 
 /**
  * Cleaner walker for wp_nav_menu()

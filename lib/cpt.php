@@ -1,6 +1,6 @@
 <?php
 
-namespace Roots\Sage\Cpt;
+namespace WD\Lib\Cpt;
 
 /* ~~~~~~~~~~~~~~~~~~~~~~
  * MENU ORDER AND CUSTOM POST TYPES

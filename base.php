@@ -1,7 +1,7 @@
 <?php
 
-use Roots\Sage\Config;
-use Roots\Sage\Wrapper;
+use WD\Lib\Config;
+use WD\Lib\Wrapper;
 
 ?>
 

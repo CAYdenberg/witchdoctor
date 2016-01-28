@@ -1,5 +1,5 @@
 <?php
-    use Roots\Sage\Nav as Nav;
+    use WD\Lib\Nav as Nav;
 ?>
 
 <nav class="navbar navbar-dark bg-inverse" role="naviagtion" id="primary-navbar">

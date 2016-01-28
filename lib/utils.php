@@ -1,6 +1,6 @@
 <?php
 
-namespace Roots\Sage\Utils;
+namespace WD\Lib\Utils;
 
 /**
  * Tell WordPress to use searchform.php from the templates/ directory
@@ -39,11 +39,31 @@ function url_compare($url, $rel) {
   }
 }
 
-
 /**
  * Check if element is empty
  */
 function is_element_empty($element) {
   $element = trim($element);
   return !empty($element);
+}
+
+/**
+ * Page titles
+ */
+function title() {
+  if (is_home()) {
+    if (get_option('page_for_posts', true)) {
+      return get_the_title(get_option('page_for_posts', true));
+    } else {
+      return __('Latest Posts', 'sage');
+    }
+  } elseif (is_archive()) {
+    return get_the_archive_title();
+  } elseif (is_search()) {
+    return sprintf(__('Search Results for %s', 'sage'), get_search_query());
+  } elseif (is_404()) {
+    return __('Not Found', 'sage');
+  } else {
+    return get_the_title();
+  }
 }

@@ -1,28 +1,13 @@
 <?php
 
-namespace Roots\Sage\Setup;
+namespace WD\Lib\Setup;
 
-use Roots\Sage\Assets;
+use WD\Lib\Assets;
 
 /**
  * Theme setup
  */
 function setup() {
-  // Enable features from Soil when plugin is activated
-  // https://roots.io/plugins/soil/
-  add_theme_support('soil-clean-up');
-  add_theme_support('soil-nav-walker');
-  add_theme_support('soil-nice-search');
-  add_theme_support('soil-jquery-cdn');
-  add_theme_support('soil-relative-urls');
-
-  // Make theme available for translation
-  // Community translations can be found at https://github.com/roots/sage-translations
-  load_theme_textdomain('sage', get_template_directory() . '/lang');
-
-  // Enable plugins to manage the document title
-  // http://codex.wordpress.org/Function_Reference/add_theme_support#Title_Tag
-  add_theme_support('title-tag');
 
   // Register wp_nav_menu() menus
   // http://codex.wordpress.org/Function_Reference/register_nav_menus
@@ -90,22 +75,6 @@ function display_sidebar() {
 
   return apply_filters('sage/display_sidebar', $display);
 }
-
-/**
- * Theme assets
- */
-function assets() {
-  wp_deregister_script('wp-embed');
-
-  wp_enqueue_style('sage/css', Assets\asset_path('styles/main.css'), false, null);
-
-  if (is_single() && comments_open() && get_option('thread_comments')) {
-    wp_enqueue_script('comment-reply');
-  }
-
-  wp_enqueue_script('sage/js', Assets\asset_path('scripts/main.js'), ['jquery'], null, true);
-}
-add_action('wp_enqueue_scripts', __NAMESPACE__ . '\\assets', 100);
 
 
 // Remove admin menus

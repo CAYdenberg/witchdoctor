@@ -1,9 +1,9 @@
 <?php
 
-namespace Roots\Sage\Extras;
+namespace WD\Lib\Extras;
 
-use Roots\Sage\Config;
-use Roots\Sage\cpt;
+use WD\Lib\Config;
+use WD\Lib\cpt;
 
 /**
  * Add <body> classes
