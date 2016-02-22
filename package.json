@@ -1,15 +1,15 @@
 {
-  "name": "sage",
-  "version": "8.4.0",
-  "author": "Ben Word <ben@benword.com>",
-  "homepage": "https://roots.io/sage/",
+  "name": "Witchdoctor",
+  "version": "0.1",
+  "author": "Casey Ydenberg <ydenberg@gmail.com>",
+  "homepage": "https://github.com/CAYdenberg/witchdoctor/",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "git://github.com/roots/sage.git"
+    "url": "git://github.com/CAYdenberg/witchdoctor.git"
   },
   "bugs": {
-    "url": "https://github.com/roots/sage/issues"
+    "url": "https://github.com/CAYdenberg/witchdoctor/issues/"
   },
   "licenses": [
     {

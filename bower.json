@@ -1,8 +1,8 @@
 {
-  "name": "sage",
-  "homepage": "https://roots.io/sage/",
+  "name": "Witchdoctor",
+  "homepage": "https://github.com/CAYdenberg/witchdoctor.git",
   "authors": [
-    "Ben Word <ben@benword.com>"
+    "Casey Ydenberg <ydenberg@gmail.com>"
   ],
   "license": "MIT",
   "private": true,
