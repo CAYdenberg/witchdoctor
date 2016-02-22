@@ -96,14 +96,14 @@ function display_sidebar() {
  */
 function assets() {
   wp_deregister_script('wp-embed');
+  wp_deregister_script('jquery');
+  wp_deregister_script('jquery-migrate');
 
   wp_enqueue_style('sage/css', Assets\asset_path('styles/main.css'), false, null);
 
-  if (is_single() && comments_open() && get_option('thread_comments')) {
-    wp_enqueue_script('comment-reply');
-  }
 
-  wp_enqueue_script('sage/js', Assets\asset_path('scripts/main.js'), ['jquery'], null, true);
+
+  wp_enqueue_script('sage/js', Assets\asset_path('scripts/main.js'), null, true);
 }
 add_action('wp_enqueue_scripts', __NAMESPACE__ . '\\assets', 100);
 
@@ -140,11 +140,6 @@ function df_disable_comments_hide_existing_comments($comments) {
 }
 add_filter('comments_array', __NAMESPACE__.'\df_disable_comments_hide_existing_comments',10,2);
 
-function df_disable_comments_admin_menu() {
-  remove_menu_page('edit-comments.php');
-}
-add_action('admin_menu',__NAMESPACE__.'\df_disable_comments_admin_menu');
-
 function df_disable_comments_admin_menu_redirect(){
   global $pagenow;
   if($pagenow==='edit-comments.php') {
@@ -166,6 +161,13 @@ function df_disable_comments_admin_bar() {
 }
 add_action('init', __NAMESPACE__.'\df_disable_comments_admin_bar');
 
+function df_remove_recent_comments_style() {
+  global $wp_widget_factory;
+  remove_action( 'wp_head', array( $wp_widget_factory->widgets['WP_Widget_Recent_Comments'], 'recent_comments_style' ) );
+}
+add_action( 'widgets_init', __NAMESPACE__ . '\df_remove_recent_comments_style' );
+
+
 // Remove junk from head
 remove_action('wp_head', 'rsd_link');
 remove_action('wp_head', 'wp_generator');
@@ -177,6 +179,8 @@ remove_action('wp_head', 'parent_post_rel_link', 10, 0);
 remove_action('wp_head', 'adjacent_posts_rel_link', 10, 0);
 remove_action( 'wp_head', 'print_emoji_detection_script', 7 );
 remove_action( 'wp_print_styles', 'print_emoji_styles' );
+
+
 
 
 /**
@@ -199,7 +203,7 @@ if (!defined('DIST_DIR')) {
 
 show_admin_bar( FALSE );
 
-if (WP_ENV == 'test') {
+if (WP_ENV === 'test') {
 	add_action('template_redirect', __NAMESPACE__ . '\protect_whole_site');
 }
 function protect_whole_site() {
