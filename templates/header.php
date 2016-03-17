@@ -1,15 +1,18 @@
-<nav class="navbar navbar-dark bg-inverse" role="navigation" id="primary-navbar">
-  <div class="container">
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">Brand</a>
+    </div>
 
-    <a class="navbar-brand" href="<?php bloginfo('url'); ?>">LOGO</a>
-
-    <button class="navbar-toggler hidden-sm-up pull-right" type="button" data-toggle="collapse" data-target="#exCollapsingNavbar2">
-      &#9776;
-    </button>
-
-    <div class="clearfix hidden-sm-up"></div>
-
-    <div class="collapse navbar-toggleable-xs" id="exCollapsingNavbar2">
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <?php if (has_nav_menu('primary_navigation')) :
         wp_nav_menu([
           'theme_location' => 'primary_navigation',
@@ -17,7 +20,7 @@
           'walker' => new Nav\NavWalker()
         ]);
       endif; ?>
-    </div>
 
+    </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
