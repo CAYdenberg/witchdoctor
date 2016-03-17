@@ -1,6 +1,6 @@
 <?php
 
-namespace Roots\Sage\Cpt;
+namespace Cpt;
 
 /* ~~~~~~~~~~~~~~~~~~~~~~
  * MENU ORDER AND CUSTOM POST TYPES
@@ -38,7 +38,6 @@ class MenuOrder {
 }
 add_filter( 'custom_menu_order',  __NAMESPACE__ . '\\MenuOrder::make_menu' );
 add_filter( 'menu_order', __NAMESPACE__ . '\\MenuOrder::make_menu');
-
 
 
 /*

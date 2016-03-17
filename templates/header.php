@@ -1,8 +1,4 @@
-<?php
-    use Roots\Sage\Nav as Nav;
-?>
-
-<nav class="navbar navbar-dark bg-inverse" role="naviagtion" id="primary-navbar">
+<nav class="navbar navbar-dark bg-inverse" role="navigation" id="primary-navbar">
   <div class="container">
 
     <a class="navbar-brand" href="<?php bloginfo('url'); ?>">LOGO</a>

@@ -1,6 +1,6 @@
 <?php
 
-namespace Roots\Sage\Wrapper;
+namespace Wrapper;
 
 /**
  * Theme wrapper

@@ -11,6 +11,7 @@
  */
 $sage_includes = [
   'lib/setup.php',                 // Utility functions
+  'lib/utils.php',
   'lib/wrapper.php',               // Theme wrapper class
   'lib/assets.php',                // Scripts and stylesheets
   'lib/titles.php',                // Page titles
@@ -18,8 +19,7 @@ $sage_includes = [
   'lib/nav.php',
   'lib/templating.php',			       // Templating functions. Uses global namespace
   'lib/extras.php',    // Custom functions
-  'lib/titles.php',    // Page titles
-  'lib/wrapper.php'   // Theme wrapper class
+  'lib/titles.php'    // Page titles
 ];
 
 foreach ($sage_includes as $file) {

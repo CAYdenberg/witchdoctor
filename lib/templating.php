@@ -7,22 +7,7 @@
 //use global namespace so that functions can be called from main theme files
 
 function get_page_title() {
-	global $wp_query;
-	if ( is_front_page() && get_field('title_area_text') ) {
-		return get_field('title_area_text');
-	} else if ( is_singular() ) {
-		return get_the_title();
-	} else if ( is_archive() ) {
-		$query = $wp_query->get_queried_object();
-		return $query->label;
-	} else if ( is_tax() ) {
-		$term = $wp_query->get_queried_object();
-    	return $term->name;
-	} else if ( is_404() ) {
-		return "Page not found";
-	} else {
-		return false;
-	}
+	return Roots\Sage\Titles\title();
 }
 
 function the_page_title() {
@@ -147,31 +132,5 @@ function format_address($fields, $formatting) {
 	}
 	return $output;
 }
-
-
-
-/* ~~~~~~~~~~~~~~~~~~~~
- * SHORTCODES
-~~~~~~~~~~~~~~~~~~~~~~*/
-
-class Ems {
-	public $template, $field;
-	function __construct($atts) {
-		$this->template = isset($atts['template']) ? $atts['template'] : 'carsouel';
-		$this->field = isset($atts['field']) ? $atts['field'] : 'carsouel';
-	}
-	public function render() {
-		ob_start();
-		get_template_part('widgets/'.$this->template);
-		return ob_get_clean();
-	}
-}
-function ems($atts) {
-	global $ems;
-	$ems = new Ems($atts);
-	return $ems->render();
-}
-add_shortcode( 'ems', 'ems' );
-
 
 ?>

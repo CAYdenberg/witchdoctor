@@ -1,10 +1,3 @@
-<?php
-
-use Roots\Sage\Config;
-use Roots\Sage\Wrapper;
-
-?>
-
 <!doctype html>
 <html class="no-js" <?php language_attributes(); ?>>
   <?php get_template_part('templates/head'); ?>

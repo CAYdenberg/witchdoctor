@@ -1,9 +1,9 @@
 <?php
 
-namespace Roots\Sage\Extras;
+namespace Extras;
 
-use Roots\Sage\Config;
-use Roots\Sage\cpt;
+use Config;
+use Cpt;
 
 /**
  * Add <body> classes

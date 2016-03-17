@@ -1,8 +1,8 @@
 <?php
 
-namespace Roots\Sage\Nav;
+namespace Nav;
 
-use Roots\Sage\Utils;
+use Utils;
 
 /**
  * Cleaner walker for wp_nav_menu()
@@ -113,7 +113,7 @@ class NavWalker extends \Walker_Nav_Menu {
 
     $classes = array_unique($classes);
 
-    return array_filter($classes, 'Roots\\Sage\\Utils\\is_element_empty');
+    return array_filter($classes, 'Utils\\is_element_empty');
   }
 }
 
