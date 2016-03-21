@@ -75,15 +75,19 @@ function if_first($input_if_first, $counter, $input_if_not_first = '') {
 	else echo $input_if_not_first;
 }
 
-function the_image($image_arr, $default_size = 'full', $classes = '', $size_attr = FALSE) {
+function get_theme_image($filename) {
+	return get_template_directory_uri() . '/dist/images/' . $filename;
+}
 
-	$srcset = function_exists('tevkori_get_srcset_string') ? tevkori_get_srcset_string($image_arr['ID'], $default_size) : '';
+function get_image_html($image_arr, $default_size = 'full', $classes = '', $size_attr = FALSE) {
+
+	$srcset = function_exists('wp_calculate_image_srcset') ? 'srcset="'.wp_calculate_image_srcset($image_arr['ID'], $default_size).'"' : '';
 
 	if ( $size_attr ) $sizes = 'sizes="'.$size_attr.'"';
 	else if ( function_exists('tevkori_get_sizes') ) $sizes = 'sizes="'.tevkori_get_sizes($image_arr['ID'], $default_size).'"';
 	else $sizes = '';
 
-	if (!$default_size || $default_size == 'full') $url = $image_arr['url'];
+	if (!$default_size || $default_size === 'full') $url = $image_arr['url'];
 	else $url = $image_arr['sizes'][$default_size];
 
 	$alt = $image_arr['alt'];
