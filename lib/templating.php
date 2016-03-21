@@ -81,10 +81,10 @@ function get_theme_image($filename) {
 
 function get_image_html($image_arr, $default_size = 'full', $classes = '', $size_attr = FALSE) {
 
-	$srcset = function_exists('wp_calculate_image_srcset') ? 'srcset="'.wp_calculate_image_srcset($image_arr['ID'], $default_size).'"' : '';
+	$srcset = function_exists('wp_get_attachment_image_srcset') ? 'srcset="'.wp_get_attachment_image_srcset($image_arr['ID'], $default_size).'"' : '';
 
 	if ( $size_attr ) $sizes = 'sizes="'.$size_attr.'"';
-	else if ( function_exists('tevkori_get_sizes') ) $sizes = 'sizes="'.tevkori_get_sizes($image_arr['ID'], $default_size).'"';
+	else if ( function_exists('wp_get_attachment_image_sizes') ) $sizes = 'sizes="'.wp_get_attachment_image_sizes($image_arr['ID'], $default_size).'"';
 	else $sizes = '';
 
 	if (!$default_size || $default_size === 'full') $url = $image_arr['url'];
