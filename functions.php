@@ -15,11 +15,11 @@ $sage_includes = [
   'lib/wrapper.php',               // Theme wrapper class
   'lib/assets.php',                // Scripts and stylesheets
   'lib/titles.php',                // Page titles
-  'lib/cpt.php',				           // Custom post types logic
+  'lib/post_types.php',				           // Custom post types logic
   'lib/nav.php',
   'lib/templating.php',			       // Templating functions. Uses global namespace
-  'lib/extras.php',    // Custom functions
-  'lib/titles.php'    // Page titles
+  'lib/extras.php',                // Custom functions
+  'lib/titles.php'                 // Page titles
 ];
 
 foreach ($sage_includes as $file) {

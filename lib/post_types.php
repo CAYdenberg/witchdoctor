@@ -2,6 +2,21 @@
 
 namespace Cpt;
 
+$models = [
+	'Exception',
+	'Post',
+	'Page',
+	'Attachment',
+	'Taxonomy',
+	'Term',
+	'User'
+];
+
+foreach ($models as $model) {
+	$filepath = locate_template('models/'.$model.'.php');
+  include_once($filepath);
+}
+
 /* ~~~~~~~~~~~~~~~~~~~~~~
  * MENU ORDER AND CUSTOM POST TYPES
  * ~~~~~~~~~~~~~~~~~~~~*/
