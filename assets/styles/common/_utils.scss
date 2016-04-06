@@ -1,0 +1,100 @@
+$h-sm: 3rem;
+$h-md: 5rem;
+$h-lg: 8rem;
+
+.padt-sm {padding-top:      $h-sm}
+.padb-sm {padding-bottom:   $h-sm}
+.pad-sm {
+  @extend .padt-sm;
+  @extend .padb-sm;
+}
+
+.padt-md {padding-top:      $h-md}
+.padb-md {padding-bottom:   $h-md}
+.pad-md {
+  @extend .padt-md;
+  @extend .padb-md;
+}
+
+.padt-lg {padding-top:      $h-lg}
+.padb-lg {padding-bottom:   $h-lg}
+.pad-lg {
+  @extend .padt-lg;
+  @extend .padb-lg;
+}
+
+.mart-sm {margin-top:      $h-sm}
+.marb-sm {margin-bottom:   $h-sm}
+.mar-sm {
+  @extend .mart-sm;
+  @extend .marb-sm;
+}
+
+.mart-md {margin-top:      $h-md}
+.marb-md {margin-bottom:   $h-md}
+.mar-md {
+  @extend .mart-md;
+  @extend .marb-md;
+}
+
+.mart-lg {margin-top:      $h-lg}
+.marb-lg {margin-bottom:   $h-lg}
+.mar-lg {
+  @extend .mart-lg;
+  @extend .marb-lg;
+}
+
+@mixin banner-img-wrapper($min-height, $max-height, $aspect-ratio) {
+  $min-width: floor(($min-height * $aspect-ratio));
+  $width-begin-crop: floor(($max-height * $aspect-ratio));
+  position: relative;
+  text-align: center;
+  overflow: hidden;
+  width: 100%;
+  height: $min-height;
+  img {
+    position:absolute;
+    left: -100%;
+    right: -100%;
+    top: -100%;
+    bottom: -100%;
+    margin: auto;
+    width: 100%;
+    min-width: $min-width;
+    min-height: 100%;
+  }
+  @media (min-width: $min-width) {
+    width: 100%;
+    height: auto;
+    img {
+      position: static;
+    }
+  }
+  @media (min-width: $width-begin-crop) {
+    height: $max-height;
+    img {
+      position: absolute;
+    }
+  }
+}
+
+@mixin input-placeholder($color) {
+  &::-webkit-input-placeholder {
+    color: $color;
+  }
+  &:-moz-placeholder {
+    color: $color;
+    opacity: 1;
+  }
+  &::-moz-placeholder {
+    color: $color;
+    opacity: 1;
+  }
+  &:-ms-input-placeholder {
+    color: $color;
+  }
+}
+
+@mixin background-image($filename) {
+  background-image: url("../images/#{$filename}");
+}
